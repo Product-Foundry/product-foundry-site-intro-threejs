@@ -1,0 +1,10 @@
+# IntelliJ
+.idea
+*.iml
+
+# Dependencies
+node_modules
+
+# Build output
+coverage
+dist

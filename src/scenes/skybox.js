@@ -30,8 +30,8 @@ class SkyboxScene {
   }
 
   init() {
-    input.onResize.add((event) => this.onResize(event));
-    input.onMouseMove.add((event) => this.onMouseMove(event));
+    input.onResize.add((event) => this._onResize(event));
+    input.onPositionUpdate.add((event) => this._onPositionUpdate(event));
 
     this.camera = new THREE.PerspectiveCamera(75, 1, 1, 5000);
     this.camera.position.z = 500;
@@ -73,7 +73,7 @@ class SkyboxScene {
     });
   }
 
-  onResize(event) {
+  _onResize(event) {
     this.camera.aspect = event.aspect;
     this.camera.updateProjectionMatrix();
 
@@ -81,7 +81,7 @@ class SkyboxScene {
     this.cameraCube.updateProjectionMatrix();
   }
 
-  onMouseMove(event) {
+  _onPositionUpdate(event) {
     this.mouseX = event.mouseX;
     this.mouseY = event.mouseY;
   }

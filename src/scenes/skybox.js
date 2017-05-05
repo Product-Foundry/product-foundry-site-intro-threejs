@@ -87,8 +87,8 @@ class SkyboxScene {
   }
 
   render() {
-    this.camera.position.x += (-this.mouseX - this.camera.position.x) * 0.001;
-    this.camera.position.y += (this.mouseY - this.camera.position.y) * 0.0005;
+    this.camera.position.x += ( this.mouseX - this.camera.position.x * 10 ) * .001;
+    this.camera.position.y += ( -this.mouseY - this.camera.position.y * 10 ) * .0005;
 
     this.camera.lookAt(this.scene.position);
     this.cameraCube.rotation.copy(this.camera.rotation);

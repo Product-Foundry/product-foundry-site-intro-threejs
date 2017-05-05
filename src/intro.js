@@ -1,9 +1,8 @@
-import * as THREE from 'three/build/three';
-import SkyBoxScene from './scenes/skybox';
+import * as THREE from "three/build/three";
+import SkyBoxScene from "./scenes/skybox";
 
-const renderer = new THREE.WebGLRenderer();
-
-renderer.setSize(window.innerWidth, window.innerHeight);
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.autoClear = false;
 
 export default function (element) {
 
@@ -18,5 +17,5 @@ export default function (element) {
     skyboxScene.render();
   }
 
-  element.appendChild(renderer.domElement);
+  element.insertBefore(renderer.domElement, element.firstChild);
 }

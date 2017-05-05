@@ -22,6 +22,9 @@ class SkyboxScene {
 
     this.reflectionCube = undefined;
     this.refractionCube = undefined;
+
+    this.mouseX = 0;
+    this.mouseY = 0;
   }
 
   init() {
@@ -66,32 +69,28 @@ class SkyboxScene {
   }
 
   resize() {
-      const canvas = this.renderer.domElement;
-      const width = canvas.clientWidth * window.devicePixelRatio;
-      const height = canvas.clientHeight * window.devicePixelRatio;
-      if (canvas.width !== width || canvas.height !== height) {
+    const canvas = this.renderer.domElement;
+    const width = canvas.clientWidth * window.devicePixelRatio;
+    const height = canvas.clientHeight * window.devicePixelRatio;
 
-        // FIXME [AK] Adjusting the renderer does not belong here
-        this.renderer.setSize(width, height, false);
-        const aspect = width / height;
+    if (canvas.width !== width || canvas.height !== height) {
+      this.renderer.setSize(width, height, false);
 
-        this.camera.aspect = aspect;
-        this.camera.updateProjectionMatrix();
+      const aspect = width / height;
 
-        this.cameraCube.aspect = aspect;
-        this.cameraCube.updateProjectionMatrix();
-      }
+      this.camera.aspect = aspect;
+      this.camera.updateProjectionMatrix();
+
+      this.cameraCube.aspect = aspect;
+      this.cameraCube.updateProjectionMatrix();
+    }
   }
 
   render() {
     this.resize();
 
-    // FIXME
-    const mouseX = 0.0;
-    const mouseY = 0.0;
-
-    this.camera.position.x += (-mouseX - this.camera.position.x) * 0.003;
-    this.camera.position.y += (mouseY - this.camera.position.y) * 0.003;
+    this.camera.position.x += (-this.mouseX - this.camera.position.x) * 0.003;
+    this.camera.position.y += (this.mouseY - this.camera.position.y) * 0.003;
 
     this.camera.lookAt(this.scene.position);
     this.cameraCube.rotation.copy(this.camera.rotation);

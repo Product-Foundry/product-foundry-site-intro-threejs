@@ -2,6 +2,8 @@ import * as THREE from 'three/build/three';
 
 import * as ImageUtils from '../utils/image';
 
+import input from '../input';
+
 import cloudy from '../textures/cubemap/cloudy.jpg';
 
 import vertexShader from '../shaders/skybox.vert';
@@ -28,10 +30,13 @@ class SkyboxScene {
   }
 
   init() {
-    this.camera = new THREE.PerspectiveCamera(50, 1, 1, 5000);
-    this.camera.position.z = 2000;
+    input.onResize.add((event) => this.onResize(event));
+    input.onMouseMove.add((event) => this.onMouseMove(event));
 
-    this.cameraCube = new THREE.PerspectiveCamera(50, 1, 1, 100);
+    this.camera = new THREE.PerspectiveCamera(75, 1, 1, 5000);
+    this.camera.position.z = 500;
+
+    this.cameraCube = new THREE.PerspectiveCamera(75, 1, 1, 100);
 
     this.scene = new THREE.Scene();
     this.sceneCube = new THREE.Scene();
@@ -68,29 +73,22 @@ class SkyboxScene {
     });
   }
 
-  resize() {
-    const canvas = this.renderer.domElement;
-    const width = canvas.clientWidth * window.devicePixelRatio;
-    const height = canvas.clientHeight * window.devicePixelRatio;
+  onResize(event) {
+    this.camera.aspect = event.aspect;
+    this.camera.updateProjectionMatrix();
 
-    if (canvas.width !== width || canvas.height !== height) {
-      this.renderer.setSize(width, height, false);
+    this.cameraCube.aspect = event.aspect;
+    this.cameraCube.updateProjectionMatrix();
+  }
 
-      const aspect = width / height;
-
-      this.camera.aspect = aspect;
-      this.camera.updateProjectionMatrix();
-
-      this.cameraCube.aspect = aspect;
-      this.cameraCube.updateProjectionMatrix();
-    }
+  onMouseMove(event) {
+    this.mouseX = event.mouseX;
+    this.mouseY = event.mouseY;
   }
 
   render() {
-    this.resize();
-
-    this.camera.position.x += (-this.mouseX - this.camera.position.x) * 0.003;
-    this.camera.position.y += (this.mouseY - this.camera.position.y) * 0.003;
+    this.camera.position.x += (-this.mouseX - this.camera.position.x) * 0.001;
+    this.camera.position.y += (this.mouseY - this.camera.position.y) * 0.0005;
 
     this.camera.lookAt(this.scene.position);
     this.cameraCube.rotation.copy(this.camera.rotation);

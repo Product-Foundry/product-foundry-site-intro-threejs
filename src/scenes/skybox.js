@@ -9,11 +9,10 @@ import cloudy from '../textures/cubemap/cloudy.jpg';
 import vertexShader from '../shaders/skybox.vert';
 import fragmentShader from '../shaders/skybox.frag';
 
+// FIXME [AK] Separate intro scene and SkyBox layer
 class SkyboxScene {
 
-  constructor(renderer) {
-    this.renderer = renderer;
-
+  constructor() {
     this.camera = undefined;
     this.cameraCube = undefined;
 
@@ -29,7 +28,9 @@ class SkyboxScene {
     this.mouseY = 0;
   }
 
-  init() {
+  init(renderer) {
+    this.renderer = renderer;
+
     input.onResize.add((event) => this._onResize(event));
     input.onPositionUpdate.add((event) => this._onPositionUpdate(event));
 

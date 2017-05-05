@@ -59,7 +59,9 @@ class Input {
       this.onResize.dispatch({
         width,
         height,
-        aspect
+        aspect,
+        windowHalfX: this.windowHalfX,
+        windowHalfY: this.windowHalfY
       });
     }
   }

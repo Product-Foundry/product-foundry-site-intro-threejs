@@ -2,24 +2,41 @@ import * as THREE from "three/build/three";
 import input from './input';
 
 import SkyBoxScene from "./scenes/skybox";
-
-const renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.autoClear = false;
+import BirdsScene from "./scenes/birds";
 
 export default function (element) {
+  const renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.autoClear = false;
 
-  const skyboxScene = new SkyBoxScene(renderer);
+  const clock = new THREE.Clock();
+
+  const skyboxScene = new SkyBoxScene();
+  const birdsScene = new BirdsScene();
 
   input.init(renderer);
 
-  skyboxScene.init().then(() => {
-    render();
+  skyboxScene.init(renderer).then(() => {
+    birdsScene.init(renderer, skyboxScene.scene);
+    animate();
   });
 
-  function render() {
-    requestAnimationFrame(render);
+  function animate() {
+    let delta = clock.getDelta();
+    if (delta > 1) {
+      // safety cap on large deltas
+      delta = 1;
+    }
+
+    const time = clock.elapsedTime;
+
+    render(delta, time);
+    requestAnimationFrame(animate);
+  }
+
+  function render(delta, time) {
     input.update();
     skyboxScene.render();
+    birdsScene.render(delta, time);
   }
 
   element.insertBefore(renderer.domElement, element.firstChild);

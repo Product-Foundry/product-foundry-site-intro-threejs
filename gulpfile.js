@@ -77,13 +77,14 @@ function build() {
       externals: {},
       module: {
         loaders: [
+          {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader'},
           {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
         ]
       },
       devtool: 'source-map'
     }))
     .pipe(gulp.dest(destinationFolder))
-    .pipe($.filter(['**', '!**/*.js.map']))
+    .pipe($.filter(['**/*.js', '!**/*.js.map']))
     .pipe($.rename(`${exportFileName}.min.js`))
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.uglify())
@@ -154,6 +155,8 @@ function testBrowser() {
       // Externals isn't necessary here since these are for tests.
       module: {
         loaders: [
+          // This allows images
+          {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader'},
           // This is what allows us to author in future JavaScript
           {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
           // This allows the test setup scripts to load `package.json`

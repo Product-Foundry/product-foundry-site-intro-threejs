@@ -14,14 +14,19 @@ module.exports = {
     sourceMapFilename: 'bundle.js.map'
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      loader: 'babel',
-      query: {
-        presets: ['es2015']
-      }
-    }]
+    loaders: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      }]
   },
   devtool: 'source-map',
   devServer: {

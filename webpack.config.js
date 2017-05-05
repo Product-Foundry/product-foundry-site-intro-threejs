@@ -16,7 +16,11 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(vert|frag)$/,
+        loader: 'raw-loader'
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
         loader: 'file-loader'
       },
       {

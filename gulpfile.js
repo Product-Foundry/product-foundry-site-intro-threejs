@@ -77,6 +77,7 @@ function build() {
       externals: {},
       module: {
         loaders: [
+          {test: /\.(vert|frag)$/, loader: 'raw-loader'},
           {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader'},
           {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
         ]

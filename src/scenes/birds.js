@@ -8,8 +8,9 @@ import fragmentShader from 'raw!../shaders/bird-geometry.frag';
 import vertexShader from 'raw!../shaders/bird.vert';
 
 const BIRDS_SIZE = 32;
-const BIRDS_BOUNDS = 800;
-const BIRDS_BOUNDS_HALF = BIRDS_BOUNDS / 2;
+const BIRDS_BOUNDS = 1024;
+const BIRDS_INIT = 200;
+const BIRDS_INIT_HALF = BIRDS_INIT / 2;
 
 const BIRDS_COUNT = BIRDS_SIZE * BIRDS_SIZE;
 
@@ -28,7 +29,6 @@ class BirdGeometry extends THREE.BufferGeometry {
     this.addAttribute('birdColor', birdColors);
     this.addAttribute('reference', references);
     this.addAttribute('birdVertex', birdVertex);
-    // this.addAttribute( 'normal', new Float32Array( points * 3 ), 3 );
 
     let verticesIndex = 0;
 
@@ -96,8 +96,9 @@ class BirdsScene {
     input.onResize.add((event) => this._onResize(event));
     input.onPositionUpdate.add((event) => this._onPositionUpdate(event));
 
-    this._initComputeRenderer();
-    this._initBirds();
+    return this._initComputeRenderer().then(() => {
+      this._initBirds();
+    });
   }
 
   _initComputeRenderer() {
@@ -127,18 +128,23 @@ class BirdsScene {
     this.velocityVariable.wrapT = THREE.RepeatWrapping;
     this.positionVariable.wrapS = THREE.RepeatWrapping;
     this.positionVariable.wrapT = THREE.RepeatWrapping;
-    const error = this.gpuCompute.init();
-    if (error !== null) {
-      console.error(error);
-    }
+
+    return new Promise((resolve, reject) => {
+      const error = this.gpuCompute.init();
+      if (error !== null) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
   }
 
   static _fillPositionTexture(texture) {
     const theArray = texture.image.data;
     for (let k = 0, kl = theArray.length; k < kl; k += 4) {
-      const x = Math.random() * BIRDS_BOUNDS - BIRDS_BOUNDS_HALF;
-      const y = Math.random() * BIRDS_BOUNDS - BIRDS_BOUNDS_HALF;
-      const z = Math.random() * BIRDS_BOUNDS - BIRDS_BOUNDS_HALF;
+      const x = Math.random() * BIRDS_INIT - BIRDS_INIT_HALF;
+      const y = Math.random() * BIRDS_INIT - BIRDS_INIT_HALF;
+      const z = Math.random() * BIRDS_INIT - BIRDS_INIT_HALF;
       theArray[k] = x;
       theArray[k + 1] = y;
       theArray[k + 2] = z;

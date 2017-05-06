@@ -29,11 +29,9 @@ class MainScene {
     input.onResize.add((event) => this._onResize(event));
     input.onPositionUpdate.add((event) => this._onPositionUpdate(event));
 
-    return Promise.all([
-      this.skyboxScene.init(renderer, this.scene, this.camera),
-      this.birdsScene.init(renderer, this.scene),
-      this.textScene.init(renderer, this.scene)
-    ])
+    return this.skyboxScene.init(renderer, this.scene, this.camera)
+      .then(() => this.birdsScene.init(renderer, this.scene))
+      .then(() => this.textScene.init(renderer, this.scene));
   }
 
   _onPositionUpdate(event) {

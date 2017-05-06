@@ -3,8 +3,12 @@ import input from './input';
 
 import SkyBoxScene from "./scenes/skybox";
 import BirdsScene from "./scenes/birds";
+import TextScene from "./scenes/text";
 
 export default function (element) {
+
+  THREE.Cache.enabled = true;
+
   const renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.autoClear = false;
 
@@ -12,11 +16,13 @@ export default function (element) {
 
   const skyboxScene = new SkyBoxScene();
   const birdsScene = new BirdsScene();
+  const textScene = new TextScene();
 
   input.init(renderer);
 
   skyboxScene.init(renderer).then(() => {
     birdsScene.init(renderer, skyboxScene.scene);
+    textScene.init(renderer, skyboxScene.scene, skyboxScene);
     animate();
   });
 

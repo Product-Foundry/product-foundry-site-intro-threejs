@@ -4,10 +4,10 @@ import * as THREE from 'three/build/three';
 
 import input from '../input';
 
-import fragmentShaderVelocity from '../shaders/bird-velocity.frag';
-import fragmentShaderPosition from '../shaders/bird-position.frag';
-import fragmentShader from '../shaders/bird-geometry.frag';
-import vertexShader from '../shaders/bird.vert';
+import fragmentShaderVelocity from 'raw!../shaders/bird-velocity.frag';
+import fragmentShaderPosition from 'raw!../shaders/bird-position.frag';
+import fragmentShader from 'raw!../shaders/bird-geometry.frag';
+import vertexShader from 'raw!../shaders/bird.vert';
 
 const BIRDS_SIZE = 32;
 const BIRDS_BOUNDS = 800;

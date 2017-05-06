@@ -77,8 +77,6 @@ function build() {
       externals: {},
       module: {
         loaders: [
-          {test: /\.(vert|frag)$/, loader: 'raw-loader'},
-          {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader'},
           {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
         ]
       },
@@ -156,8 +154,6 @@ function testBrowser() {
       // Externals isn't necessary here since these are for tests.
       module: {
         loaders: [
-          // This allows images
-          {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader'},
           // This is what allows us to author in future JavaScript
           {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
           // This allows the test setup scripts to load `package.json`

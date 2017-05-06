@@ -16,14 +16,6 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.(vert|frag)$/,
-        loader: 'raw-loader'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'file-loader'
-      },
-      {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',

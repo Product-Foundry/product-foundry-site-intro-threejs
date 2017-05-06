@@ -4,10 +4,10 @@ import * as ImageUtils from '../utils/image';
 
 import input from '../input';
 
-import cloudy from '../textures/cubemap/cloudy.jpg';
+import cloudy from 'file!../textures/cubemap/cloudy.jpg';
 
-import vertexShader from '../shaders/skybox.vert';
-import fragmentShader from '../shaders/skybox.frag';
+import vertexShader from 'raw!../shaders/skybox.vert';
+import fragmentShader from 'raw!../shaders/skybox.frag';
 
 // FIXME [AK] Separate intro scene and SkyBox layer
 class SkyboxScene {
@@ -41,6 +41,9 @@ class SkyboxScene {
 
     this.scene = new THREE.Scene();
     this.sceneCube = new THREE.Scene();
+
+    const ambient = new THREE.AmbientLight(0xffffff);
+    this.scene.add(ambient);
 
     return ImageUtils.loadCubeMap(cloudy, 512, 512).then((imageUris) => {
       this.reflectionCube = new THREE.CubeTextureLoader().load(imageUris);

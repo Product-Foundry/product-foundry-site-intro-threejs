@@ -1,66 +1,124 @@
-import overpassBlack from 'file!../fonts/overpass_black-regular.typeface.json';
+import overpassBlackFnt from 'file!../fonts/overpass_black.fnt';
+import overpassBlackPng from 'file!../fonts/overpass_black.png';
 
-const text = "we BUILD\nREAL-TIME, REAL-LIFE\nSOFTWARE",
-  height = 8,
-  size = 48,
-  fontName = "overpass",
-  fontWeight = "black-regular";
+import textVs from 'raw!glslify!../shaders/text.vert';
+import textFs from 'raw!glslify!../shaders/text.frag';
+
+import * as fontUtils from '../utils/font';
+
+import buffer from 'three-buffer-vertex-data';
+import createText from 'three-bmfont-text';
+
+const texts = [
+  'we BUILD\nREAL-TIME, REAL-LIFE\nSYSTEMS',
+  'by COLLABORATING\nWITH COMMUNITIES\nFOR COHERENCE',
+  'through IMMERSION\nIN COMPLEXITY',
+  'creating SOFTWARE\nAS CULTURAL ARTIFACTS'
+];
 
 class TextScene {
 
   constructor() {
-    this.font = undefined;
-    this.textMesh = undefined;
-    this.textMaterial = undefined;
+    this.material = undefined;
+
+    this.time = 0;
+    this.nextIndex = 0;
   }
 
-  init(renderer, scene, skybox) {
+  init(renderer, scene) {
     this.renderer = renderer;
     this.scene = scene;
 
-    this.textMaterial = new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-      envMap: skybox.reflectionCube,
-      combine: THREE.MixOperation,
-      reflectivity: 0.8
+    return fontUtils.load({font: overpassBlackFnt, image: overpassBlackPng})
+      .then((options) => {
+        this.initFont(options);
+      });
+  }
+
+  initFont(options) {
+    this.geometry = createText({
+      text: "test",
+      font: options.font,
+      align: 'center',
+      width: 800,
+      lineHeight: 64
     });
 
-    this.group = new THREE.Group();
-    this.group.position.y = -20;
-    this.scene.add(this.group);
-
-    this.loadFont();
-  }
-
-  loadFont() {
-    const loader = new THREE.FontLoader();
-    loader.load(overpassBlack, (response) => {
-      this.font = response;
-      this.refreshText();
+    this.material = new THREE.RawShaderMaterial({
+      vertexShader: textVs,
+      fragmentShader: textFs,
+      uniforms: {
+        animate: {type: 'f', value: 1},
+        iGlobalTime: {type: 'f', value: 0},
+        map: {type: 't', value: options.texture},
+        color: {type: 'c', value: new THREE.Color('#ffffff')}
+      },
+      transparent: true,
+      side: THREE.FrontSide,
+      depthTest: false
     });
+
+    this.text = new THREE.Mesh(this.geometry, this.material);
+
+    const textAnchor = new THREE.Object3D();
+    textAnchor.add(this.text);
+
+    const mS = (new THREE.Matrix4()).identity();
+    // mS.elements[0] = 1;
+    mS.elements[5] = -1;
+    mS.elements[10] = -1;
+    textAnchor.applyMatrix(mS);
+
+    this.scene.add(textAnchor);
+
+    this.next();
   }
 
-  refreshText() {
-    this.group.remove(this.textMesh);
-    if (!text) return;
-    this.createText();
+  next() {
+    this.geometry.update(texts[this.nextIndex]);
+
+    this.nextIndex++;
+    if (this.nextIndex === texts.length) {
+      this.nextIndex = 0;
+    }
+
+    const lines = this.geometry.visibleGlyphs.map(function (glyph) {
+      return glyph.line
+    });
+
+    const lineCount = 1 + lines.reduce(function (a, b) {
+      return Math.max(a, b)
+    }, 0);
+
+    // for each quad, let's give it a vertex attribute with the line index
+    const lineData = lines.map(function (line) {
+      // map to 0..1 for attribute
+      const t = lineCount <= 1 ? 1 : (line / (lineCount - 1));
+      // quad - 4 verts
+      return [t, t, t, t]
+    }).reduce(function (a, b) {
+      return a.concat(b)
+    }, []);
+
+    // update the "line" vertex attribute
+    buffer.attr(this.geometry, 'line', lineData, 1);
+
+    // center the text
+    const layout = this.geometry.layout;
+    this.text.position.x = -layout.width / 2;
+    this.text.position.y = layout.height / 2;
   }
 
-  createText() {
-    let xMid, yMid;
-    const textShape = new THREE.BufferGeometry();
+  render(delta) {
+    this.time += delta;
+    const duration = 8;
+    this.material.uniforms.iGlobalTime.value = this.time;
+    this.material.uniforms.animate.value = this.time / duration;
 
-    const shapes = this.font.generateShapes(text, size, height);
-    const geometry = new THREE.ShapeGeometry(shapes);
-    geometry.computeBoundingBox();
-    xMid = -0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
-    yMid = 0.5 * ( geometry.boundingBox.max.y - geometry.boundingBox.min.y );
-    geometry.translate(xMid, yMid, 100);
-    // make shape ( N.B. edge view not visible )
-    textShape.fromGeometry(geometry);
-    this.textMesh = new THREE.Mesh(textShape, this.textMaterial);
-
-    this.group.add(this.textMesh);
+    if (this.time > duration) {
+      this.time = 0;
+      this.next();
+    }
   }
 }
 

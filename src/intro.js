@@ -21,8 +21,9 @@ export default function (element) {
 
   skyboxScene.init(renderer).then(() => {
     birdsScene.init(renderer, skyboxScene.scene);
-    textScene.init(renderer, skyboxScene.scene, skyboxScene);
-    animate();
+    textScene.init(renderer, skyboxScene.scene).then(() => {
+      animate();
+    })
   });
 
   function animate() {
@@ -40,8 +41,9 @@ export default function (element) {
 
   function render(delta, time) {
     input.update();
-    skyboxScene.render();
+    skyboxScene.render(delta, time);
     birdsScene.render(delta, time);
+    textScene.render(delta, time);
   }
 
   element.insertBefore(renderer.domElement, element.firstChild);

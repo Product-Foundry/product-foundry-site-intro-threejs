@@ -4,35 +4,55 @@ import MainScene from "./scenes/main";
 
 export default function (element) {
 
-  THREE.Cache.enabled = true;
+  return checkWebGLAvailable()
+    .then(() => start());
 
-  const renderer = new THREE.WebGLRenderer({antialias: true});
-  renderer.autoClear = false;
+  function checkWebGLAvailable() {
+    return new Promise(resolve => {
+      const canvas = document.createElement("canvas");
+      const webGlAvailable = !!window.WebGLRenderingContext &&
+        (canvas.getContext("webgl") ||
+        canvas.getContext("experimental-webgl"));
 
-  const clock = new THREE.Clock();
-  const mainScene = new MainScene();
-  input.init(renderer);
+      if (!webGlAvailable) {
+        throw "WebGL not available";
+      } else {
+        resolve();
+      }
+    });
+  }
 
-  mainScene.init(renderer).then(() => {
-    animate();
-  });
+  function start() {
+    THREE.Cache.enabled = true;
 
-  function animate() {
-    let delta = clock.getDelta();
-    if (delta > 1) {
-      delta = 1; // safety cap on large deltas
+    const renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.autoClear = false;
+
+    input.init(renderer);
+    const clock = new THREE.Clock();
+    const mainScene = new MainScene();
+
+    mainScene.init(renderer).then(() => {
+      animate();
+    });
+
+    function animate() {
+      let delta = clock.getDelta();
+      if (delta > 1) {
+        delta = 1; // safety cap on large deltas
+      }
+
+      const time = clock.elapsedTime;
+
+      render(delta, time);
+      requestAnimationFrame(animate);
     }
 
-    const time = clock.elapsedTime;
+    function render(delta, time) {
+      input.update();
+      mainScene.render(delta, time);
+    }
 
-    render(delta, time);
-    requestAnimationFrame(animate);
+    element.insertBefore(renderer.domElement, element.firstChild);
   }
-
-  function render(delta, time) {
-    input.update();
-    mainScene.render(delta, time);
-  }
-
-  element.insertBefore(renderer.domElement, element.firstChild);
 }

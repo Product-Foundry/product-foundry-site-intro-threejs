@@ -1,8 +1,6 @@
 import input from './input';
 
-import SkyBoxScene from "./scenes/skybox";
-import BirdsScene from "./scenes/birds";
-import TextScene from "./scenes/text";
+import MainScene from "./scenes/main";
 
 export default function (element) {
 
@@ -12,25 +10,17 @@ export default function (element) {
   renderer.autoClear = false;
 
   const clock = new THREE.Clock();
-
-  const skyboxScene = new SkyBoxScene();
-  const birdsScene = new BirdsScene();
-  const textScene = new TextScene();
-
+  const mainScene = new MainScene();
   input.init(renderer);
 
-  skyboxScene.init(renderer).then(() => {
-    birdsScene.init(renderer, skyboxScene.scene);
-    textScene.init(renderer, skyboxScene.scene).then(() => {
-      animate();
-    })
+  mainScene.init(renderer).then(() => {
+    animate();
   });
 
   function animate() {
     let delta = clock.getDelta();
     if (delta > 1) {
-      // safety cap on large deltas
-      delta = 1;
+      delta = 1; // safety cap on large deltas
     }
 
     const time = clock.elapsedTime;
@@ -41,9 +31,7 @@ export default function (element) {
 
   function render(delta, time) {
     input.update();
-    skyboxScene.render(delta, time);
-    birdsScene.render(delta, time);
-    textScene.render(delta, time);
+    mainScene.render(delta, time);
   }
 
   element.insertBefore(renderer.domElement, element.firstChild);

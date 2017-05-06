@@ -1,7 +1,5 @@
 import GPUComputationRenderer from '../lib/GPUComputationRenderer';
 
-import * as THREE from 'three/build/three';
-
 import input from '../input';
 
 import fragmentShaderVelocity from 'raw!../shaders/bird-velocity.frag';

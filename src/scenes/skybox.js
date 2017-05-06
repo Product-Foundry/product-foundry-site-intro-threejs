@@ -1,5 +1,3 @@
-import * as THREE from 'three/build/three';
-
 import * as ImageUtils from '../utils/image';
 
 import input from '../input';

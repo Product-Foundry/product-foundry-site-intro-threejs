@@ -1,5 +1,3 @@
-import * as THREE from 'three/build/three';
-
 import overpassBlack from 'file!../fonts/overpass_black-regular.typeface.json';
 
 const text = "we BUILD\nREAL-TIME, REAL-LIFE\nSOFTWARE",

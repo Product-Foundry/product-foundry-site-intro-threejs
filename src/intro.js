@@ -1,4 +1,3 @@
-import * as THREE from "three/build/three";
 import input from './input';
 
 import SkyBoxScene from "./scenes/skybox";

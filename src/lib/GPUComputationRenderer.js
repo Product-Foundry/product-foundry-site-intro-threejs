@@ -1,5 +1,3 @@
-import * as THREE from 'three/build/three';
-
 /**
  * @author yomboprime https://github.com/yomboprime
  *

@@ -1,4 +1,4 @@
-import * as ImageUtils from '../utils/image';
+import * as imageUtils from '../utils/image';
 
 import input from '../input';
 
@@ -20,7 +20,6 @@ class SkyboxScene {
     this.viewDirectionProjectionInverse = undefined;
 
     this.reflectionCube = undefined;
-    this.refractionCube = undefined;
 
     this.mouseX = 0;
     this.mouseY = 0;
@@ -43,13 +42,9 @@ class SkyboxScene {
     const ambient = new THREE.AmbientLight(0xffffff);
     this.scene.add(ambient);
 
-    return ImageUtils.loadCubeMap(cloudy, 512, 512).then((imageUris) => {
+    return imageUtils.loadCubeMap(cloudy, 512, 512).then((imageUris) => {
       this.reflectionCube = new THREE.CubeTextureLoader().load(imageUris);
       this.reflectionCube.format = THREE.RGBFormat;
-
-      this.refractionCube = new THREE.CubeTextureLoader().load(imageUris);
-      this.refractionCube.mapping = THREE.CubeRefractionMapping;
-      this.refractionCube.format = THREE.RGBFormat;
 
       this.viewDirectionProjectionInverse = new THREE.Matrix4();
       const geometry = new THREE.PlaneBufferGeometry(2, 2);
@@ -67,11 +62,6 @@ class SkyboxScene {
 
       const mesh = new THREE.Mesh(geometry, material);
       this.scene.add(mesh);
-
-      const g = new THREE.BoxGeometry(1, 1, 1);
-      const m = new THREE.MeshBasicMaterial({color: 0x00ff00});
-      const cube = new THREE.Mesh(g, m);
-      this.scene.add(cube);
     });
   }
 

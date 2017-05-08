@@ -1,5 +1,5 @@
-import overpassBlackFnt from 'file!../fonts/overpass.fnt';
-import overpassBlackPng from 'file!../fonts/overpass.png';
+import overpassBlackFnt from 'url!../fonts/overpass.fnt';
+import overpassBlackPng from 'url!../fonts/overpass.png';
 
 import textVs from 'raw!glslify!../shaders/text.vert';
 import textFs from 'raw!glslify!../shaders/text.frag';

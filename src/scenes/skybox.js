@@ -3,9 +3,27 @@ import * as imageUtils from '../utils/image';
 import input from '../input';
 
 import cloudy from 'file!../textures/cubemap/cloudy.jpg';
+import stormy from 'file!../textures/cubemap/stormy.jpg';
 
 import vertexShader from 'raw!../shaders/skybox.vert';
 import fragmentShader from 'raw!../shaders/skybox.frag';
+
+const clouds = {
+  cloudy: {
+    url: cloudy,
+    width: 512,
+    height: 512
+  },
+  stormy: {
+    url: stormy,
+    width: 1024,
+    height: 1024
+  }
+};
+
+const cloudKeys = Object.getOwnPropertyNames(clouds);
+
+const cloud = clouds[cloudKeys[Math.floor(Math.random() * cloudKeys.length)]];
 
 class SkyboxScene {
 
@@ -28,7 +46,7 @@ class SkyboxScene {
     this.cameraCube = new THREE.PerspectiveCamera(75, 1, 1, 100);
     this.sceneCube = new THREE.Scene();
 
-    return imageUtils.loadCubeMap(cloudy, 512, 512).then((imageUris) => {
+    return imageUtils.loadCubeMap(cloud.url, cloud.width, cloud.height).then((imageUris) => {
       this.reflectionCube = new THREE.CubeTextureLoader().load(imageUris);
       this.reflectionCube.format = THREE.RGBFormat;
 

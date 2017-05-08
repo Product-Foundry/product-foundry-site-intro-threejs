@@ -1,6 +1,6 @@
 import input from './input';
 
-import MainScene from "./scenes/main";
+import MainScene from './scenes/main';
 
 export default function (element) {
 

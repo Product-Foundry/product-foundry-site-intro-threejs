@@ -7,6 +7,8 @@ import fragmentShaderPosition from 'raw!../shaders/bird-position.frag';
 import fragmentShader from 'raw!../shaders/bird-geometry.frag';
 import vertexShader from 'raw!../shaders/bird.vert';
 
+require("expose?THREE!three/build/three");
+
 const BIRDS_SIZE = 32;
 const BIRDS_BOUNDS = 1024;
 const BIRDS_INIT = 200;

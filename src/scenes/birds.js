@@ -87,6 +87,12 @@ class BirdsScene {
     this.positionUniforms = undefined;
     this.velocityUniforms = undefined;
     this.birdUniforms = undefined;
+
+    this.mouseX = 0;
+    this.mouseY = 0;
+
+    this.windowHalfX = 0;
+    this.windowHalfY = 0;
   }
 
   init(renderer, scene) {

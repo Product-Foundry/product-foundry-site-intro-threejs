@@ -45,7 +45,7 @@ class TextScene {
   }
 
   _onResize(event) {
-    this.scale = event.width / event.height / 1.5;
+    this.scale = event.width / event.height / 1.8;
 
     this.refreshFont();
     this.refreshText();
@@ -61,7 +61,7 @@ class TextScene {
       font: this.font,
       align: 'center',
       width: 800,
-      lineHeight: 64
+      lineHeight: 56
     });
 
     this.material = new THREE.RawShaderMaterial({

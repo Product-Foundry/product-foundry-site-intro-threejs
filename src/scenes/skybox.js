@@ -17,10 +17,22 @@ import fewclouds_night from 'file!../textures/cubemap/fewclouds-night.jpg';
 import mist from 'file!../textures/cubemap/mist.jpg';
 import mist_night from 'file!../textures/cubemap/mist-night.jpg';
 
+import rain from 'file!../textures/cubemap/rain.jpg';
+import rain_night from 'file!../textures/cubemap/rain-night.jpg';
+
 import scatteredclouds from 'file!../textures/cubemap/scatteredclouds.jpg';
 import scatteredclouds_night from 'file!../textures/cubemap/scatteredclouds-night.jpg';
 
+import showerrain from 'file!../textures/cubemap/showerrain.jpg';
+import showerrain_night from 'file!../textures/cubemap/showerrain-night.jpg';
+
+import snow from 'file!../textures/cubemap/snow.jpg';
+import snow_night from 'file!../textures/cubemap/snow-night.jpg';
+
 import stormy from 'file!../textures/cubemap/stormy.jpg';
+
+import thunderstorm from 'file!../textures/cubemap/thunderstorm.jpg';
+import thunderstorm_night from 'file!../textures/cubemap/thunderstorm-night.jpg';
 
 import vertexShader from 'raw!../shaders/skybox.vert';
 import fragmentShader from 'raw!../shaders/skybox.frag';
@@ -57,8 +69,28 @@ const skyboxes = {
       width: 1024,
       height: 1024,
     },
+    rain: {
+      url: rain,
+      width: 1024,
+      height: 1024
+    },
+    showerrain: {
+      url: showerrain,
+      width: 1024,
+      height: 1024
+    },
+    snow: {
+      url: snow,
+      width: 1024,
+      height: 1024
+    },
     stormy: {
       url: stormy,
+      width: 1024,
+      height: 1024
+    },
+    thunderstorm: {
+      url: thunderstorm,
       width: 1024,
       height: 1024
     }
@@ -84,8 +116,28 @@ const skyboxes = {
       width: 1024,
       height: 1024
     },
+    rain: {
+      url: rain_night,
+      width: 1024,
+      height: 1024
+    },
     scatteredclouds: {
       url: scatteredclouds_night,
+      width: 1024,
+      height: 1024
+    },
+    showerrain: {
+      url: showerrain_night,
+      width: 1024,
+      height: 1024
+    },
+    snow: {
+      url: snow_night,
+      width: 1024,
+      height: 1024
+    },
+    thunderstorm: {
+      url: thunderstorm_night,
       width: 1024,
       height: 1024
     }

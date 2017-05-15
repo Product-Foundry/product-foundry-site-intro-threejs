@@ -1,29 +1,120 @@
 import * as imageUtils from '../utils/image';
+import * as urlUtils from '../utils/url';
 
 import input from '../input';
 
+import brokenclouds from 'file!../textures/cubemap/brokenclouds.jpg';
+import brokenclouds_night from 'file!../textures/cubemap/brokenclouds-night.jpg';
+
+import clearsky from 'file!../textures/cubemap/clearsky.jpg';
+import clearsky_night from 'file!../textures/cubemap/clearsky-night.jpg';
+
 import cloudy from 'file!../textures/cubemap/cloudy.jpg';
+
+import fewclouds from 'file!../textures/cubemap/fewclouds.jpg';
+import fewclouds_night from 'file!../textures/cubemap/fewclouds-night.jpg';
+
+import mist from 'file!../textures/cubemap/mist.jpg';
+import mist_night from 'file!../textures/cubemap/mist-night.jpg';
+
+import scatteredclouds from 'file!../textures/cubemap/scatteredclouds.jpg';
+import scatteredclouds_night from 'file!../textures/cubemap/scatteredclouds-night.jpg';
+
 import stormy from 'file!../textures/cubemap/stormy.jpg';
 
 import vertexShader from 'raw!../shaders/skybox.vert';
 import fragmentShader from 'raw!../shaders/skybox.frag';
 
-const clouds = {
-  cloudy: {
-    url: cloudy,
-    width: 512,
-    height: 512
+const skyboxes = {
+  day: {
+    brokenclouds : {
+      url: brokenclouds,
+      width: 1024,
+      height: 1024,
+    },
+    clearsky : {
+      url: clearsky,
+      width: 1024,
+      height: 1024,
+    },
+    cloudy: {
+      url: cloudy,
+      width: 512,
+      height: 512
+    },
+    fewclouds : {
+      url: fewclouds,
+      width: 1024,
+      height: 1024,
+    },
+    mist : {
+      url: mist,
+      width: 1024,
+      height: 1024,
+    },
+    scatteredclouds : {
+      url: scatteredclouds,
+      width: 1024,
+      height: 1024,
+    },
+    stormy: {
+      url: stormy,
+      width: 1024,
+      height: 1024
+    }
   },
-  stormy: {
-    url: stormy,
-    width: 1024,
-    height: 1024
+  night: {
+    brokenclouds: {
+      url: brokenclouds_night,
+      width: 1024,
+      height: 1024
+    },
+    clearsky: {
+      url: clearsky_night,
+      width: 1024,
+      height: 1024
+    },
+    fewclouds: {
+      url: fewclouds_night,
+      width: 1024,
+      height: 1024
+    },
+    mist: {
+      url: mist_night,
+      width: 1024,
+      height: 1024
+    },
+    scatteredclouds: {
+      url: scatteredclouds_night,
+      width: 1024,
+      height: 1024
+    }
   }
 };
 
-const cloudKeys = Object.getOwnPropertyNames(clouds);
+function getSkybox() {
+  let time = urlUtils.getParameterByName('time');
+  const possibleTimes = Object.getOwnPropertyNames(skyboxes);
+  if (!time || !possibleTimes.includes(time)) {
+    const hour = (new Date()).getHours();
+    if (hour > 6 && hour < 23) {
+      time = 'day'
+    } else {
+      time = 'night';
+    }
+  }
 
-const cloud = clouds[cloudKeys[Math.floor(Math.random() * cloudKeys.length)]];
+  const skyboxDefinitions = skyboxes[time];
+  const skyboxNames = Object.getOwnPropertyNames(skyboxDefinitions);
+  let skyBoxName = urlUtils.getParameterByName('skybox');
+  if (!skyBoxName || !skyboxNames.includes(skyBoxName)) {
+    skyBoxName = skyboxNames[Math.floor(Math.random() * skyboxNames.length)];
+  }
+
+  return skyboxDefinitions[skyBoxName];
+}
+
+const cloud = getSkybox();
 
 class SkyboxScene {
 

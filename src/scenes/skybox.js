@@ -39,11 +39,6 @@ import fragmentShader from 'raw!../shaders/skybox.frag';
 
 const skyboxes = {
   day: {
-    brokenclouds : {
-      url: brokenclouds,
-      width: 1024,
-      height: 1024,
-    },
     clearsky : {
       url: clearsky,
       width: 1024,
@@ -59,48 +54,18 @@ const skyboxes = {
       width: 1024,
       height: 1024,
     },
-    mist : {
-      url: mist,
-      width: 1024,
-      height: 1024,
-    },
     scatteredclouds : {
       url: scatteredclouds,
       width: 1024,
       height: 1024,
     },
-    rain: {
-      url: rain,
-      width: 1024,
-      height: 1024
-    },
-    showerrain: {
-      url: showerrain,
-      width: 1024,
-      height: 1024
-    },
-    snow: {
-      url: snow,
-      width: 1024,
-      height: 1024
-    },
     stormy: {
       url: stormy,
-      width: 1024,
-      height: 1024
-    },
-    thunderstorm: {
-      url: thunderstorm,
       width: 1024,
       height: 1024
     }
   },
   night: {
-    brokenclouds: {
-      url: brokenclouds_night,
-      width: 1024,
-      height: 1024
-    },
     clearsky: {
       url: clearsky_night,
       width: 1024,
@@ -111,33 +76,8 @@ const skyboxes = {
       width: 1024,
       height: 1024
     },
-    mist: {
-      url: mist_night,
-      width: 1024,
-      height: 1024
-    },
-    rain: {
-      url: rain_night,
-      width: 1024,
-      height: 1024
-    },
     scatteredclouds: {
       url: scatteredclouds_night,
-      width: 1024,
-      height: 1024
-    },
-    showerrain: {
-      url: showerrain_night,
-      width: 1024,
-      height: 1024
-    },
-    snow: {
-      url: snow_night,
-      width: 1024,
-      height: 1024
-    },
-    thunderstorm: {
-      url: thunderstorm_night,
       width: 1024,
       height: 1024
     }

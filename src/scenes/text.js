@@ -12,10 +12,10 @@ import buffer from 'three-buffer-vertex-data';
 import createText from 'three-bmfont-text';
 
 const texts = [
-  'we help\nBUILD KNOWLEDGE-CENTRIC ORGANIZATIONS',
-  'by understanding\nEXISTING AND REQUIRED KNOWLEDGE',
-  'that contribute to\nORGANIZATIONAL VALUE',
-  'for complete\nORGANIZATIONAL COHERENCE'
+  'we build\nPRODUCTS\nfor\nPURPOSE-ORIENTED BRANDS\n',
+  'with\nSTRATEGIES\ndeveloped through\nCOMPREHENSIVE RESEARCH\n',
+  'for EXPERIENCE and\nSYSTEM DESIGN\n',
+  'delivered with\nSOFTWARE, HARDWARE\nand\nMATERIAL ENGINEERING'
 ];
 
 class TextScene {

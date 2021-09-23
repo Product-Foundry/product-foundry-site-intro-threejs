@@ -88,7 +88,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _input2.default.init(renderer);
 	    var clock = new THREE.Clock();
 	    var mainScene = new _main2.default();
-	
 	    mainScene.init(renderer).then(function () {
 	      animate();
 	    });

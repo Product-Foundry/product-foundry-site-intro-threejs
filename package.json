@@ -1,6 +1,6 @@
 {
   "name": "product-foundry-site-intro-threejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Real-time intro for Product Foundry site",
   "main": "dist/product-foundry-site-intro.js",
   "scripts": {

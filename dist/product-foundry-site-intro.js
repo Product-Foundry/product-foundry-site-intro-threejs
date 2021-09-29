@@ -60,7 +60,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	exports.default = function (element) {
+	exports.default = function (element, texts) {
 	
 	  return checkWebGLAvailable().then(function () {
 	    return start();
@@ -87,7 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _input2.default.init(renderer);
 	    var clock = new THREE.Clock();
-	    var mainScene = new _main2.default();
+	    var mainScene = new _main2.default(texts);
 	
 	    mainScene.init(renderer).then(function () {
 	      animate();
@@ -716,7 +716,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var MainScene = function () {
-	  function MainScene() {
+	  function MainScene(texts) {
 	    _classCallCheck(this, MainScene);
 	
 	    this.camera = new THREE.PerspectiveCamera(75, 1, 1, 5000);
@@ -729,7 +729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.skyboxScene = new _skybox2.default();
 	    this.birdsScene = new _birds2.default();
-	    this.textScene = new _text2.default();
+	    this.textScene = new _text2.default(texts);
 	
 	    this.mouseX = 0;
 	    this.mouseY = 0;
@@ -45672,16 +45672,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var texts = ['we build\nPRODUCTS\nfor\nPURPOSE-ORIENTED BRANDS\n', 'with\nSTRATEGIES\ndeveloped through\nCOMPREHENSIVE RESEARCH\n', 'for EXPERIENCE and\nSYSTEM DESIGN\n', 'delivered with\nSOFTWARE, HARDWARE\nand\nMATERIAL ENGINEERING'];
+	// const texts = [
+	//   'we build\nPRODUCTS\nfor\nPURPOSE-ORIENTED BRANDS\n',
+	//   'with\nSTRATEGIES\ndeveloped through\nCOMPREHENSIVE RESEARCH\n',
+	//   'for EXPERIENCE and\nSYSTEM DESIGN\n',
+	//   'delivered with\nSOFTWARE, HARDWARE\nand\nMATERIAL ENGINEERING'
+	// ];
 	
 	var TextScene = function () {
-	  function TextScene() {
+	  function TextScene(texts) {
 	    _classCallCheck(this, TextScene);
 	
 	    this.material = undefined;
 	
 	    this.time = 0;
 	    this.nextIndex = 0;
+	    this.texts = texts;
 	  }
 	
 	  _createClass(TextScene, [{
@@ -45711,7 +45717,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.scale = event.width / event.height / 1.8;
 	
 	      this.refreshFont();
-	      this.refreshText();
+	      this.refreshText(this.texts);
 	    }
 	  }, {
 	    key: 'refreshFont',
@@ -45758,7 +45764,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'refreshText',
 	    value: function refreshText() {
-	      this.geometry.update(texts[this.nextIndex]);
+	      var texts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.texts;
+	
+	      this.geometry.update(this.texts[this.nextIndex]);
 	
 	      var lines = this.geometry.visibleGlyphs.map(function (glyph) {
 	        return glyph.line;
@@ -45790,7 +45798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'nextText',
 	    value: function nextText() {
 	      this.nextIndex++;
-	      if (this.nextIndex === texts.length) {
+	      if (this.nextIndex === this.texts.length) {
 	        this.nextIndex = 0;
 	      }
 	    }

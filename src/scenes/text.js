@@ -11,20 +11,21 @@ import input from '../input';
 import buffer from 'three-buffer-vertex-data';
 import createText from 'three-bmfont-text';
 
-const texts = [
-  'we build\nPRODUCTS\nfor\nPURPOSE-ORIENTED BRANDS\n',
-  'with\nSTRATEGIES\ndeveloped through\nCOMPREHENSIVE RESEARCH\n',
-  'for EXPERIENCE and\nSYSTEM DESIGN\n',
-  'delivered with\nSOFTWARE, HARDWARE\nand\nMATERIAL ENGINEERING'
-];
+// const texts = [
+//   'we build\nPRODUCTS\nfor\nPURPOSE-ORIENTED BRANDS\n',
+//   'with\nSTRATEGIES\ndeveloped through\nCOMPREHENSIVE RESEARCH\n',
+//   'for EXPERIENCE and\nSYSTEM DESIGN\n',
+//   'delivered with\nSOFTWARE, HARDWARE\nand\nMATERIAL ENGINEERING'
+// ];
 
 class TextScene {
 
-  constructor() {
+  constructor(texts) {
     this.material = undefined;
 
     this.time = 0;
     this.nextIndex = 0;
+    this.texts = texts;
   }
 
   init(renderer, scene) {
@@ -48,7 +49,7 @@ class TextScene {
     this.scale = event.width / event.height / 1.8;
 
     this.refreshFont();
-    this.refreshText();
+    this.refreshText(this.texts);
   }
 
   refreshFont() {
@@ -92,8 +93,8 @@ class TextScene {
     this.scene.add(this.textAnchor);
   }
 
-  refreshText() {
-    this.geometry.update(texts[this.nextIndex]);
+  refreshText(texts = this.texts) {
+    this.geometry.update(this.texts[this.nextIndex]);
 
     const lines = this.geometry.visibleGlyphs.map(function (glyph) {
       return glyph.line
@@ -124,7 +125,7 @@ class TextScene {
 
   nextText() {
     this.nextIndex++;
-    if (this.nextIndex === texts.length) {
+    if (this.nextIndex === this.texts.length) {
       this.nextIndex = 0;
     }
   }

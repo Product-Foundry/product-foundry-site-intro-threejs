@@ -2,7 +2,7 @@ import input from './input';
 
 import MainScene from './scenes/main';
 
-export default function (element) {
+export default function (element, texts) {
 
   return checkWebGLAvailable()
     .then(() => start());
@@ -30,7 +30,7 @@ export default function (element) {
 
     input.init(renderer);
     const clock = new THREE.Clock();
-    const mainScene = new MainScene();
+    const mainScene = new MainScene(texts);
 
     mainScene.init(renderer).then(() => {
       animate();

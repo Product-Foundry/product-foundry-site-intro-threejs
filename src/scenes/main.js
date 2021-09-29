@@ -6,7 +6,7 @@ import TextScene from "./text";
 
 class MainScene {
 
-  constructor() {
+  constructor(texts) {
     this.camera = new THREE.PerspectiveCamera(75, 1, 1, 5000);
     this.camera.position.z = 500;
 
@@ -17,7 +17,7 @@ class MainScene {
 
     this.skyboxScene = new SkyBoxScene();
     this.birdsScene = new BirdsScene();
-    this.textScene = new TextScene();
+    this.textScene = new TextScene(texts);
 
     this.mouseX = 0;
     this.mouseY = 0;
